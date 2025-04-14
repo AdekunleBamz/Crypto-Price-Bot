@@ -19,20 +19,30 @@ A Telegram bot that provides real-time cryptocurrency price updates and notifica
 
 1. Install the required dependencies:
 ```bash
-pip install python-telegram-bot aiohttp
+pip install -r requirements.txt
 ```
 
-2. Configure your bot token in `config.json`:
-```json
-{
-    "bot_token": "YOUR_BOT_TOKEN"
-}
+2. Create a `.env` file in the root directory with your credentials:
+```env
+BOT_TOKEN=your_bot_token_here
+CHANNEL_ID=@your_channel_name
 ```
+
+To get your bot token:
+1. Talk to [@BotFather](https://t.me/botfather) on Telegram
+2. Create a new bot using the `/newbot` command
+3. Copy the token provided by BotFather
 
 3. Run the bot:
 ```bash
 python crypto_price_bot.py
 ```
+
+## Security Notes
+
+- Never commit your `.env` file to version control
+- If you accidentally expose your bot token, revoke it immediately using [@BotFather](https://t.me/botfather)
+- Keep your channel ID private if the channel is private
 
 ## Data Source
 

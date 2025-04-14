@@ -31,12 +31,13 @@ ENV/
 *.swp
 *.swo
 
-# Local configuration
-config.json
+# Sensitive files
 .env
+config.json
+*.key
+secrets.json
+credentials.json
 
-# Logs
+# Logs and cache
 *.log
-
-# Cache files
 cache.json 

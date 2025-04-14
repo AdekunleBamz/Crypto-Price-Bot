@@ -8,6 +8,7 @@ import os
 import logging
 import sys
 from contextlib import suppress
+from dotenv import load_dotenv
 
 # Set up logging
 logging.basicConfig(
@@ -16,20 +17,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Load environment variables
+load_dotenv()
+
 # Configuration
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(SCRIPT_DIR, 'config.json')
 CACHE_PATH = os.path.join(SCRIPT_DIR, 'cache.json')
 
 # Bot configuration
-config = {
-    'bot_token': '7407219457:AAFR2xSr6AfdXHfeZ6pwZleR7TCnI0-qanY'
-}
-with open(CONFIG_PATH, 'w') as f:
-    json.dump(config, f)
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+if not BOT_TOKEN:
+    logger.error("No bot token found. Please set BOT_TOKEN in .env file")
+    sys.exit(1)
 
-BOT_TOKEN = config['bot_token']
-CHANNEL_ID = '@bamzz_cryptoalpha'
+CHANNEL_ID = os.getenv('CHANNEL_ID')
+if not CHANNEL_ID:
+    logger.error("No channel ID found. Please set CHANNEL_ID in .env file")
+    sys.exit(1)
+
 UPDATE_INTERVAL = 1800  # 30 minutes
 COINGECKO_API = 'https://api.coingecko.com/api/v3'
 
