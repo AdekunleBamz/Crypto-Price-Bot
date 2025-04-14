@@ -110,13 +110,11 @@ async def format_price_message(coin_id: str, coin_name: str, data: dict) -> str:
     
     change_emoji = "🟢" if change >= 0 else "🔴"
     
-    message = f"💎 {coin_name.upper()} ({coin_id.upper()}) Price Update\n\n"
-    message += f"💵 Price: ${price:,.4f}\n"
-    message += f"📊 24h Change: {change_emoji} {change:.2f}%\n"
-    message += f"📈 24h Volume: ${volume:,.0f}\n"
-    message += f"💰 Market Cap: ${market_cap:,.0f}\n"
-    message += f"\n🔄 Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}"
-    message += "\n\n🔗 @bamzz_cryptoalpha"
+    message = f"💎 {coin_name.upper()} ({coin_id.upper()})\n"
+    message += f"💵 ${price:,.4f}\n"
+    message += f"📊 24h: {change_emoji} {change:.2f}%\n"
+    message += f"📈 Vol: ${volume:,.0f}\n"
+    message += f"💰 MCap: ${market_cap:,.0f}"
     
     return message
 
@@ -128,15 +126,8 @@ async def send_channel_update():
             await load_coin_list()
 
         major_coins = [
-            'bitcoin',
-            'ethereum',
-            'solana',
-            'cosmos-hub',  # ATOM
-            'aptos',
-            'sui',
-            'arbitrum',
-            'optimism',
-            'matic-network'  # Polygon
+            'bitcoin', 'ethereum', 'solana', 'cosmos-hub', 'aptos',
+            'sui', 'arbitrum', 'optimism', 'matic-network'
         ]
         messages = []
         
@@ -152,7 +143,10 @@ async def send_channel_update():
                 logger.error(f"Failed to fetch price data for {coin_id}")
         
         if messages:
-            final_message = "🚨 Major Crypto Price Update\n\n" + "\n\n".join(messages)
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M UTC')
+            final_message = "🚨 Crypto Price Update\n\n" + "\n\n".join(messages)
+            final_message += f"\n\n⏰ {timestamp}\n🔗 @bamzz_cryptoalpha"
+            
             async with Bot(token=BOT_TOKEN) as bot:
                 await bot.send_message(chat_id=CHANNEL_ID, text=final_message)
             logger.info("Channel update sent successfully")
